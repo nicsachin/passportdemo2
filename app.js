@@ -2,6 +2,8 @@ const express = require('express')
 const app = express()
 const      passport = require('passport')
 const      keys = require('./keys')
+//const Name = require('./model/model')
+
 app.set('view engine','ejs')
 
  app.use(passport.initialize());
@@ -22,9 +24,6 @@ passport.use(new GoogleStrategy({
     function( accessToken,refreshtoken,profile,done) {
 
 
-        //console.log(accessToken)
-       // console.log(refreshtoken)
-      //  console.log(profile)
         return done(null,profile)
 
     }
@@ -39,7 +38,12 @@ app.get('/auth/google',passport.authenticate('google',{scope:['profile','email']
 app.get('/auth/google/redirect',passport.authenticate('google'),(req,res)=>{
     const imageFile = req.user._json.picture
      const name = req.user._json.name
+     //const myname = new Name({name:name})
+    //   myname.save()
+     module.exports = name
+      require('./model/model')
      res.render('index',{imageFile,name})
+
 })
 const port = process.env.PORT || 3000
 
