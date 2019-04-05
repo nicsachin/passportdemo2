@@ -9,6 +9,7 @@
   "author": "sachin",
   "license": "ISC",
   "dependencies": {
+    "ejs": "^2.6.1",
     "express": "^4.16.4",
     "nodemon": "^1.18.10",
     "passport": "^0.4.0",

@@ -2,15 +2,15 @@ const express = require('express')
 const app = express()
 const      passport = require('passport')
 const      keys = require('./keys')
-app.use(passport.initialize());
-app.use(passport.session());
+app.set('view engine','ejs')
+
+ app.use(passport.initialize());
+ app.use(passport.session());
 passport.serializeUser(function(user, done) {
     done(null, user);
 });
 
-passport.deserializeUser(function(user, done) {
-    done(null, user);
-});
+
 var GoogleStrategy = require( 'passport-google-oauth2' ).Strategy;
 
 passport.use(new GoogleStrategy({
@@ -23,8 +23,8 @@ passport.use(new GoogleStrategy({
 
 
         //console.log(accessToken)
-        console.log(refreshtoken)
-        console.log(profile)
+       // console.log(refreshtoken)
+      //  console.log(profile)
         return done(null,profile)
 
     }
@@ -37,7 +37,9 @@ app.get('/auth/google',passport.authenticate('google',{scope:['profile','email']
 })
 
 app.get('/auth/google/redirect',passport.authenticate('google'),(req,res)=>{
-    res.send('logged in!!')
+    const imageFile = req.user._json.picture
+     const name = req.user._json.name
+     res.render('index',{imageFile,name})
 })
 const port = process.env.PORT || 3000
 
